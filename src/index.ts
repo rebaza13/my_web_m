@@ -9,6 +9,11 @@ const routes = [
         component: () => import("@/views/Login.vue")
     },
     {
+        path: '/manage',
+        name: 'manage',
+        component: () => import("@/views/ManageUsers.vue")
+    },
+    {
         path: '/add-item',
         name: 'add-item',
         component: () => import("@/views/AddItem.vue")

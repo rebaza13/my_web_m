@@ -32,7 +32,8 @@
             ></v-text-field>
             <v-file-input
               label="Item Image"
-              v-model="form.image"
+             @change="handleUploadImage"
+              inputmode="file"
               prepend-icon="mdi-camera"
               accept="image/*"
               required
@@ -59,24 +60,31 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { reactive } from 'vue';
 import {Item}from "@/type/types"
 import { useActionStore } from '@/store/ActionStore';
 import { useMainStore } from '@/store/MainStore';
+import { uploadImage } from '@/firebase/firebase';
 
+const handleUploadImage = (event:any)=>{
+  form.image = event.target.files[0]
+}
 const actionStore = useActionStore()
 const mainStore = useMainStore()
-const form = ref<Item>({
+const form = reactive<Item>({
   description: '',
   id: mainStore.user.uid,
   name: '',
   price: 0,
   quantity: 0,
-  image: ''
+  image: '' 
 });
 
 const submitForm = async () => {
- await  actionStore.addItem(form.value)
+  // @ts-ignore
+ await uploadImage(form.image)
+  // console.log(uploadImage(form.image),'here')
+ await  actionStore.addItem(form)
 };
 </script>
 

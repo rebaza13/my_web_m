@@ -1,10 +1,12 @@
 import { defineStore } from "pinia";
-
+import {User} from "@/type/types.ts"
 import { getAuth, signInWithEmailAndPassword ,sendPasswordResetEmail } from "firebase/auth";
 import {auth } from "@/firebase/firebase"
 import { ref } from "vue";
 import { Item } from "@/type/types";
 const listItem = ref<Item | []>([])
+const usersList = ref<User |[]>([])
+
 export const useMainStore = defineStore('mainStore',()=>{
     // @ts-ignore
     const user =ref<any>(window.localStorage.getItem('userT')?JSON.parse((window.localStorage.getItem('userT'))):null)
@@ -30,5 +32,5 @@ export const useMainStore = defineStore('mainStore',()=>{
             alert(error.message)
         })
     }
-    return {listItem,user,isLogged,login,forgotPassword}
+    return {listItem,user,isLogged,usersList,login,forgotPassword}
 })
